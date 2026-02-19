@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISLA | Integrated Strategic Leadership Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0c0f;
+  --bg-secondary:#11141a;
+  --panel:#161b24;
+  --text:#f0f2f5;
+  --text-secondary:#9ca3af;
+  --accent:#3b82f6;
+  --accent-secondary:#8b5cf6;
+  --gold:#d4af37;
+  --silver:#c0c0c0;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+
+/* Navigation */
+nav{position:fixed;top:0;width:100%;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;z-index:1000;background:rgba(10,12,15,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.05)}
+.logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent-secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:30px;align-items:center}
+.nav-links a{color:var(--text-secondary);text-decoration:none;font-size:14px;font-weight:500;transition:color 0.3s;position:relative}
+.nav-links a:hover{color:var(--text)}
+.nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent-secondary));transition:width 0.3s}
+.nav-links a:hover::after{width:100%}
+.nav-links a.active{color:var(--accent)}
+.lang-toggle{cursor:pointer;font-size:13px;color:var(--text-secondary);border:1px solid rgba(255,255,255,0.1);padding:8px 16px;border-radius:20px;transition:all 0.3s;background:rgba(255,255,255,0.02)}
+.lang-toggle:hover{border-color:var(--accent);color:var(--accent);background:rgba(59,130,246,0.1)}
+
+/* Hero */
+header{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 20px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;top:0;left:0;width:100%;height:100%;z-index:-1}
+.hero-grid{position:absolute;width:200%;height:200%;top:-50%;left:-50%;background-image:linear-gradient(rgba(59,130,246,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.03) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 20s linear infinite}
+@keyframes gridMove{0%{transform:translate(0,0)}100%{transform:translate(60px,60px)}}
+.floating-orbs{position:absolute;width:100%;height:100%;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.4;animation:float 20s infinite ease-in-out}
+.orb:nth-child(1){width:400px;height:400px;background:var(--accent);top:10%;left:10%}
+.orb:nth-child(2){width:300px;height:300px;background:var(--accent-secondary);top:60%;right:10%;animation-delay:-5s}
+.orb:nth-child(3){width:250px;height:250px;background:var(--accent);bottom:10%;left:30%;animation-delay:-10s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-30px) scale(1.1)}66%{transform:translate(-20px,20px) scale(0.9)}}
+
+.hero-content{position:relative;z-index:1;max-width:900px}
+.badge{display:inline-block;padding:8px 20px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:30px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:30px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(59,130,246,0.4)}50%{box-shadow:0 0 0 10px rgba(59,130,246,0)}}
+
+h1{font-family:'Playfair Display',serif;font-size:56px;font-weight:700;line-height:1.2;margin-bottom:24px;background:linear-gradient(135deg,#fff 0%,#94a3b8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;opacity:0;transform:translateY(30px);animation:fadeInUp 1s ease forwards 0.2s}
+.subtitle{font-size:20px;color:var(--text-secondary);font-weight:300;max-width:600px;margin:0 auto 40px;opacity:0;transform:translateY(30px);animation:fadeInUp 1s ease forwards 0.4s}
+@keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+
+.cta-button{display:inline-block;padding:16px 32px;background:linear-gradient(135deg,var(--accent),var(--accent-secondary));color:white;text-decoration:none;border-radius:30px;font-weight:600;font-size:16px;transition:all 0.3s;box-shadow:0 10px 30px rgba(59,130,246,0.3);opacity:0;transform:translateY(30px);animation:fadeInUp 1s ease forwards 0.6s;margin:10px}
+.cta-button:hover{transform:translateY(-2px);box-shadow:0 20px 40px rgba(59,130,246,0.4)}
+.cta-button.outline{background:transparent;border:1px solid rgba(255,255,255,0.2);box-shadow:none}
+.cta-button.outline:hover{border-color:var(--accent);background:rgba(59,130,246,0.1)}
+
+.scroll-indicator{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);animation:bounce 2s infinite}
+@keyframes bounce{0%,20%,50%,80%,100%{transform:translateX(-50%) translateY(0)}40%{transform:translateX(-50%) translateY(-10px)}60%{transform:translateX(-50%) translateY(-5px)}}
+
+/* Sections */
+.section{max-width:1100px;margin:auto;padding:120px 20px}
+.section-header{text-align:center;margin-bottom:60px}
+.section-number{font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:rgba(59,130,246,0.1);line-height:1;margin-bottom:-20px}
+.section h2{font-family:'Playfair Display',serif;font-size:36px;font-weight:600;margin-bottom:16px;position:relative;display:inline-block}
+.section h2::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:60px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-secondary));border-radius:2px}
+.section-subtitle{color:var(--text-secondary);font-size:18px;max-width:600px;margin:20px auto 0}
+
+/* Cards */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;margin-top:40px}
+.card{background:var(--panel);padding:40px;border-radius:16px;border:1px solid rgba(255,255,255,0.05);transition:all 0.4s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-secondary));transform:scaleX(0);transition:transform 0.4s}
+.card:hover{transform:translateY(-5px);border-color:rgba(59,130,246,0.3);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.card:hover::before{transform:scaleX(1)}
+.card-icon{width:50px;height:50px;background:linear-gradient(135deg,var(--accent),var(--accent-secondary));border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:24px}
+.card h3{font-size:20px;margin-bottom:12px}
+.card p{color:var(--text-secondary);font-size:15px;line-height:1.7}
+
+/* Architecture Diagram */
+.diagram-container{margin-top:60px}
+.diagram{display:flex;flex-direction:column;gap:24px;max-width:800px;margin:0 auto}
+.layer{padding:35px 40px;border-radius:16px;text-align:center;font-weight:600;font-size:18px;transition:all 0.4s;position:relative;cursor:pointer;border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(10px)}
+.layer:hover{transform:translateX(10px)}
+.layer.leadership{background:linear-gradient(135deg,rgba(31,41,55,0.8),rgba(31,41,55,0.4));border-left:4px solid #6b7280}
+.layer.hc{background:linear-gradient(135deg,rgba(24,33,47,0.8),rgba(24,33,47,0.4));border-left:4px solid var(--accent)}
+.layer.ai{background:linear-gradient(135deg,rgba(20,29,43,0.9),rgba(20,29,43,0.5));border-left:4px solid var(--accent-secondary);box-shadow:0 0 30px rgba(139,92,246,0.2)}
+.layer-number{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.2);width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.connection-line{position:absolute;left:50%;transform:translateX(-50%);width:2px;height:24px;background:linear-gradient(to bottom,var(--accent),var(--accent-secondary));z-index:-1}
+
+/* Profile */
+.profile-card{background:var(--panel);border-radius:20px;padding:60px;display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:center;border:1px solid rgba(255,255,255,0.05);position:relative;overflow:hidden}
+.profile-card::before{content:'';position:absolute;top:-50%;right:-50%;width:100%;height:100%;background:radial-gradient(circle,rgba(59,130,246,0.1) 0%,transparent 70%);pointer-events:none}
+.avatar-container{position:relative;width:200px;height:200px}
+.avatar-container::before{content:'';position:absolute;inset:-5px;background:linear-gradient(135deg,var(--gold),var(--silver),var(--accent));border-radius:50%;z-index:-1;animation:rotate 4s linear infinite}
+@keyframes rotate{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.avatar-container::after{content:'';position:absolute;inset:-3px;background:var(--panel);border-radius:50%;z-index:-1}
+.avatar{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid transparent;background:var(--panel)}
+.profile-info h3{font-family:'Playfair Display',serif;font-size:32px;margin-bottom:8px}
+.profile-title{color:var(--accent);font-weight:600;font-size:16px;margin-bottom:20px;text-transform:uppercase;letter-spacing:2px}
+.profile-bio{color:var(--text-secondary);line-height:1.8;margin-bottom:24px}
+.social-links{display:flex;gap:16px}
+.social-links a{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);text-decoration:none;transition:all 0.3s;border:1px solid rgba(255,255,255,0.1)}
+.social-links a:hover{background:var(--accent);color:white;transform:translateY(-3px);border-color:var(--accent)}
+
+/* Contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.contact-info h3{font-family:'Playfair Display',serif;font-size:28px;margin-bottom:20px}
+.contact-details{margin-top:30px}
+.contact-item{display:flex;align-items:center;gap:15px;margin-bottom:20px;color:var(--text-secondary)}
+.contact-icon{width:40px;height:40px;background:rgba(59,130,246,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--accent)}
+form{background:var(--panel);padding:40px;border-radius:16px;border:1px solid rgba(255,255,255,0.05)}
+.form-group{margin-bottom:20px}
+form input,form textarea{width:100%;padding:16px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;background:var(--bg-secondary);color:var(--text);font-family:inherit;font-size:15px;transition:all 0.3s}
+form input:focus,form textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,130,246,0.1)}
+button{width:100%;padding:16px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-secondary));color:white;cursor:pointer;font-weight:600;font-size:16px;transition:all 0.3s;position:relative;overflow:hidden}
+button::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:left 0.5s}
+button:hover::before{left:100%}
+button:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(59,130,246,0.3)}
+
+/* Footer */
+footer{background:var(--bg-secondary);padding:60px 40px 30px;border-top:1px solid rgba(255,255,255,0.05)}
+.footer-content{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
+.footer-logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent-secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.footer-links{display:flex;gap:30px}
+.footer-links a{color:var(--text-secondary);text-decoration:none;font-size:14px;transition:color 0.3s}
+.footer-links a:hover{color:var(--accent)}
+.footer-bottom{text-align:center;padding-top:30px;border-top:1px solid rgba(255,255,255,0.05);color:var(--text-secondary);font-size:14px}
+
+/* Gradient Divider */
+.gradient-line{height:1px;width:100%;background:linear-gradient(90deg,transparent,var(--accent),var(--accent-secondary),transparent);opacity:0.5}
+
+/* Animations */
+.fade{opacity:0;transform:translateY(40px);transition:all 0.8s cubic-bezier(0.4,0,0.2,1)}
+.fade.visible{opacity:1;transform:translateY(0)}
+
+/* Page Sections */
+.page-section{display:none}
+.page-section.active{display:block;animation:fadeIn 0.5s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* Responsive */
+@media(max-width:768px){
+  h1{font-size:36px}
+  .section h2{font-size:28px}
+  .profile-card{grid-template-columns:1fr;text-align:center}
+  .avatar-container{margin:0 auto}
+  .contact-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+
+/* ==================== WHITE PAPER PAGE ==================== */
+.whitepaper-hero{min-height:70vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:150px 20px 80px;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-secondary) 100%);position:relative}
+.whitepaper-hero::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 50% 50%,rgba(212,175,55,0.05) 0%,transparent 50%);pointer-events:none}
+
+.whitepaper-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 24px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:30px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:30px}
+
+.whitepaper-hero h1{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;line-height:1.2;margin-bottom:20px;background:linear-gradient(135deg,#fff 0%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;opacity:1;transform:none;animation:none}
+
+.whitepaper-meta{display:flex;gap:30px;margin-top:30px;color:var(--text-secondary);font-size:14px;flex-wrap:wrap;justify-content:center}
+.meta-item{display:flex;align-items:center;gap:8px}
+
+.abstract-section{max-width:900px;margin:0 auto;padding:80px 20px}
+.abstract-container{background:var(--panel);border-radius:20px;padding:60px;border:1px solid rgba(255,255,255,0.05);position:relative;overflow:hidden}
+.abstract-container::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,var(--gold),var(--accent),var(--accent-secondary))}
+
+.abstract-label{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:30px;display:block}
+
+.abstract-content{font-family:'Playfair Display',serif;font-size:20px;line-height:2;color:var(--text);font-style:italic;margin-bottom:40px;position:relative;padding-left:30px;border-left:3px solid rgba(212,175,55,0.3)}
+
+.keywords-section{margin-top:40px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.1)}
+.keywords-label{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-secondary);margin-bottom:20px;display:block}
+.keywords-list{display:flex;flex-wrap:wrap;gap:12px}
+.keyword-tag{padding:10px 20px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:20px;font-size:13px;color:var(--text);transition:all 0.3s}
+.keyword-tag:hover{background:rgba(59,130,246,0.2);border-color:var(--accent);transform:translateY(-2px)}
+
+.download-section{text-align:center;padding:60px 20px;background:var(--bg-secondary)}
+.download-card{max-width:600px;margin:0 auto;padding:50px;background:var(--panel);border-radius:20px;border:1px solid rgba(255,255,255,0.1);position:relative;overflow:hidden}
+.download-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(59,130,246,0.1) 0%,transparent 70%);pointer-events:none}
+
+.download-icon{width:80px;height:80px;margin:0 auto 30px;background:linear-gradient(135deg,var(--accent),var(--accent-secondary));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 20px 40px rgba(59,130,246,0.3)}
+
+.download-title{font-family:'Playfair Display',serif;font-size:28px;margin-bottom:15px}
+.download-desc{color:var(--text-secondary);margin-bottom:30px;line-height:1.8}
+.download-btn{display:inline-flex;align-items:center;gap:10px;padding:16px 32px;background:linear-gradient(135deg,var(--accent),var(--accent-secondary));color:white;text-decoration:none;border-radius:30px;font-weight:600;transition:all 0.3s;box-shadow:0 10px 30px rgba(59,130,246,0.3)}
+.download-btn:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(59,130,246,0.4)}
+
+.toc-section{max-width:800px;margin:0 auto;padding:80px 20px}
+.toc-title{font-family:'Playfair Display',serif;font-size:32px;text-align:center;margin-bottom:50px}
+.toc-list{list-style:none}
+.toc-item{display:flex;align-items:center;gap:20px;padding:25px 30px;margin-bottom:15px;background:var(--panel);border-radius:12px;border:1px solid rgba(255,255,255,0.05);transition:all 0.3s;cursor:pointer}
+.toc-item:hover{border-color:rgba(59,130,246,0.3);transform:translateX(10px)}
+.toc-number{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--accent);min-width:40px}
+.toc-content h4{font-size:18px;margin-bottom:5px;color:var(--text)}
+.toc-content p{font-size:14px;color:var(--text-secondary)}
+.toc-arrow{margin-left:auto;color:var(--text-secondary);transition:all 0.3s}
+.toc-item:hover .toc-arrow{color:var(--accent);transform:translateX(5px)}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="logo">ISLA</div>
+  <div class="nav-links">
+    <a href="#" class="nav-link active" onclick="showPage('home')">Home</a>
+    <a href="#" class="nav-link" onclick="showPage('whitepaper')">White Paper</a>
+    <a href="#" class="nav-link" onclick="showPage('about')">About</a>
+    <a href="#" class="nav-link" onclick="showPage('contact')">Contact</a>
+    <div class="lang-toggle" onclick="toggleLang()">EN / ID</div>
+  </div>
+</nav>
+
+<!-- ==================== HOME PAGE ==================== -->
+<div id="home" class="page-section active">
+<header>
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="floating-orbs">
+      <div class="orb"></div>
+      <div class="orb"></div>
+      <div class="orb"></div>
+    </div>
+  </div>
+  
+  <div class="hero-content">
+    <div class="badge">Strategic Architecture</div>
+    <h1>Integrated Strategic Leadership Architecture</h1>
+    <p class="subtitle">Leadership. Human Capital. Artificial Intelligence.</p>
+    <div>
+      <a href="#overview" class="cta-button">Explore Framework</a>
+      <a href="#" class="cta-button outline" onclick="showPage('whitepaper')">Read White Paper</a>
+    </div>
+  </div>
+  
+  <div class="scroll-indicator">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+    </svg>
+  </div>
+</header>
+
+<div class="gradient-line"></div>
+
+<section class="section fade" id="overview">
+  <div class="section-header">
+    <div class="section-number">01</div>
+    <h2>Executive Overview</h2>
+    <p class="section-subtitle">A comprehensive framework for modern organizational excellence</p>
+  </div>
+  
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>Strategic Alignment</h3>
+      <p>ISLA aligns leadership competency with organizational goals, ensuring every decision drives measurable business outcomes.</p>
+    </div>
+    
+    <div class="card">
+      <div class="card-icon">👥</div>
+      <h3>Human Capital</h3>
+      <p>Optimizing talent management through data-driven insights and strategic workforce planning for sustainable growth.</p>
+    </div>
+    
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <h3>AI Integration</h3>
+      <p>Leveraging artificial intelligence to enhance decision-making processes and predict future organizational needs.</p>
+    </div>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<section class="section fade" id="architecture">
+  <div class="section-header">
+    <div class="section-number">02</div>
+    <h2>Three-Layer Architecture</h2>
+    <p class="section-subtitle">Integrated components working in harmony</p>
+  </div>
+  
+  <div class="diagram-container">
+    <div class="diagram">
+      <div class="layer leadership">
+        <span class="layer-number">01</span>
+        <span>Leadership Competency Layer</span>
+      </div>
+      <div class="connection-line"></div>
+      <div class="layer hc">
+        <span class="layer-number">02</span>
+        <span>Human Capital Strategy Layer</span>
+      </div>
+      <div class="connection-line"></div>
+      <div class="layer ai">
+        <span class="layer-number">03</span>
+        <span>AI Decision Intelligence Layer</span>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ==================== WHITE PAPER PAGE ==================== -->
+<div id="whitepaper" class="page-section">
+<section class="whitepaper-hero">
+  <div class="whitepaper-badge">
+    <span>📄</span>
+    <span>Academic Publication</span>
+  </div>
+  <h1>ISLA Framework White Paper</h1>
+  <p class="subtitle">Building the Adaptive Enterprise Through Integrated Leadership Architecture</p>
+  
+  <div class="whitepaper-meta">
+    <div class="meta-item">Yanto Goutama</div>
+    <div class="meta-item">2026</div>
+    <div class="meta-item">Strategic Management</div>
+    <div class="meta-item">Enterprise Architecture</div>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<section class="abstract-section">
+  <div class="abstract-container">
+    <span class="abstract-label">Abstract</span>
+    
+    <div class="abstract-content">
+      "Dalam era disrupsi digital yang dipercepat oleh kecerdasan buatan (AI), organisasi enterprise menghadapi paradoks strategis: semakin banyak data yang tersedia, semakin sulit pengambilan keputusan yang cepat dan akurat. ISLA (Integrated Strategic Leadership Architecture) hadir sebagai respons terhadap fragmentasi yang umum terjadi antara tiga pilar kritis transformasi organisasi: kepemimpinan strategis, human capital, dan sistem kecerdasan data."
+    </div>
+    
+    <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:20px">
+      White paper ini memperkenalkan framework holistik yang mengintegrasikan ketiga dimensi tersebut dalam satu arsitektur terukur, dengan fokus pada pembentukan <strong style="color:var(--text)">Adaptive Enterprise</strong> —organisasi yang mampu mengantisipasi perubahan sebelum disrupsi terjadi, bukan sekadar bereaksi terhadapnya.
+    </p>
+
+    <div class="keywords-section">
+      <span class="keywords-label">Keywords</span>
+      <div class="keywords-list">
+        <span class="keyword-tag">Enterprise Transformation</span>
+        <span class="keyword-tag">Strategic Leadership</span>
+        <span class="keyword-tag">Human Capital Architecture</span>
+        <span class="keyword-tag">AI-Driven Decision Making</span>
+        <span class="keyword-tag">Organizational Maturity Model</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<section class="toc-section">
+  <h2 class="toc-title">Table of Contents</h2>
+  <ul class="toc-list">
+    <li class="toc-item">
+      <span class="toc-number">01</span>
+      <div class="toc-content">
+        <h4>Introduction & Background</h4>
+        <p>The strategic paradox of digital disruption</p>
+      </div>
+      <span class="toc-arrow">→</span>
+    </li>
+    <li class="toc-item">
+      <span class="toc-number">02</span>
+      <div class="toc-content">
+        <h4>Literature Review</h4>
+        <p>Leadership theory meets AI implementation</p>
+      </div>
+      <span class="toc-arrow">→</span>
+    </li>
+    <li class="toc-item">
+      <span class="toc-number">03</span>
+      <div class="toc-content">
+        <h4>The ISLA Framework</h4>
+        <p>Three-layer integrated architecture</p>
+      </div>
+      <span class="toc-arrow">→</span>
+    </li>
+    <li class="toc-item">
+      <span class="toc-number">04</span>
+      <div class="toc-content">
+        <h4>Implementation Methodology</h4>
+        <p>From theory to organizational practice</p>
+      </div>
+      <span class="toc-arrow">→</span>
+    </li>
+    <li class="toc-item">
+      <span class="toc-number">05</span>
+      <div class="toc-content">
+        <h4>Case Studies & Applications</h4>
+        <p>Real-world enterprise transformations</p>
+      </div>
+      <span class="toc-arrow">→</span>
+    </li>
+  </ul>
+</section>
+
+<section class="download-section">
+  <div class="download-card">
+    <div class="download-icon">📥</div>
+    <h3 class="download-title">Download Full White Paper</h3>
+    <p class="download-desc">
+      Access the complete academic publication with detailed framework methodology, 
+      implementation guidelines, and case study analysis.
+    </p>
+    <a href="#" class="download-btn" onclick="alert('Download akan tersedia segera')">
+      <span>Download PDF</span>
+      <span>↓</span>
+    </a>
+  </div>
+</section>
+</div>
+
+<!-- ==================== ABOUT PAGE ==================== -->
+<div id="about" class="page-section">
+<section class="section" style="padding-top:150px">
+  <div class="section-header">
+    <div class="section-number">03</div>
+    <h2>About Yanto</h2>
+    <p class="section-subtitle">Architect of Integrated Leadership Solutions</p>
+  </div>
+  
+  <div class="profile-card">
+    <div class="avatar-container">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23d4af37'/%3E%3Cstop offset='50%25' style='stop-color:%23c0c0c0'/%3E%3Cstop offset='100%25' style='stop-color:%233b82f6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='100' cy='100' r='95' fill='url(%23g)'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-size='80' font-weight='bold' fill='white'%3EYG%3C/text%3E%3C/svg%3E" alt="Yanto Goutama" class="avatar">
+    </div>
+    <div class="profile-info">
+      <h3>Yanto Goutama</h3>
+      <div class="profile-title">Founder & Principal Consultant</div>
+      <p class="profile-bio">
+        Strategic leader with extensive experience in organizational development, human capital optimization, and digital transformation. Passionate about bridging the gap between traditional leadership principles and emerging AI technologies to create sustainable competitive advantages for modern enterprises.
+      </p>
+      <div class="social-links">
+        <a href="#" title="LinkedIn">in</a>
+        <a href="#" title="Email">@</a>
+        <a href="#" title="Phone">📞</a>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ==================== CONTACT PAGE ==================== -->
+<div id="contact" class="page-section">
+<section class="section" style="padding-top:150px">
+  <div class="section-header">
+    <div class="section-number">04</div>
+    <h2>Get in Touch</h2>
+    <p class="section-subtitle">Start your transformation journey today</p>
+  </div>
+  
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>Let's Discuss Your Strategy</h3>
+      <p style="color:var(--text-secondary);line-height:1.8;">
+        Ready to transform your organization's leadership architecture? Contact us for a consultation tailored to your specific challenges and objectives.
+      </p>
+      
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-icon">✉</div>
+          <span>info.forisaimpact@gmail.com</span>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <span>Jakarta, Indonesia</span>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🌐</div>
+          <span>www.isla-framework.com</span>
+        </div>
+      </div>
+    </div>
+    
+    <form action="https://formsubmit.co/info.forisaimpact@gmail.com" method="POST">
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Your Name" required>
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Your Email" required>
+      </div>
+      <div class="form-group">
+        <input type="text" name="company" placeholder="Company (Optional)">
+      </div>
+      <div class="form-group">
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      </div>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+</section>
+</div>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-logo">ISLA</div>
+    <div class="footer-links">
+      <a href="#" onclick="showPage('home')">Home</a>
+      <a href="#" onclick="showPage('whitepaper')">White Paper</a>
+      <a href="#" onclick="showPage('about')">About</a>
+      <a href="#" onclick="showPage('contact')">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 ISLA Framework. Designed by Yanto Goutama. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// Page Navigation
+function showPage(pageName){
+  // Hide all pages
+  document.querySelectorAll('.page-section').forEach(page => {
+    page.classList.remove('active');
+  });
+  
+  // Show selected page
+  document.getElementById(pageName).classList.add('active');
+  
+  // Update nav active state
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  // Scroll to top
+  window.scrollTo(0,0);
+}
+
+// Fade-in animation
+const fades = document.querySelectorAll('.fade');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+fades.forEach(f => observer.observe(f));
+
+// Navbar scroll effect
+window.addEventListener('scroll', function(){
+  const navbar = document.getElementById('navbar');
+  if(window.scrollY > 50){
+    navbar.style.background = 'rgba(10,12,15,0.95)';
+    navbar.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+  } else {
+    navbar.style.background = 'rgba(10,12,15,0.8)';
+    navbar.style.boxShadow = 'none';
+  }
+});
+
+// Language Toggle
+let currentLang = 'en';
+function toggleLang(){
+  currentLang = currentLang === 'en' ? 'id' : 'en';
+  const elements = document.querySelectorAll('[data-en]');
+  elements.forEach(el=>{
+    el.style.opacity = '0';
+    setTimeout(()=>{
+      el.innerText = el.getAttribute('data-' + currentLang);
+      el.style.opacity = '1';
+    }, 200);
+  });
+}
+</script>
+
+</body>
+</html>
