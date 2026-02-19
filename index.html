@@ -624,10 +624,79 @@ footer{background:var(--bg-secondary);padding:60px 40px 30px;border-top:1px soli
     <p class="section-subtitle">Architect of Integrated Leadership Solutions</p>
   </div>
   
-  <div class="profile-card">
-    <div class="avatar-container">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23d4af37'/%3E%3Cstop offset='50%25' style='stop-color:%23c0c0c0'/%3E%3Cstop offset='100%25' style='stop-color:%233b82f6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='100' cy='100' r='95' fill='url(%23g)'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-size='80' font-weight='bold' fill='white'%3EYG%3C/text%3E%3C/svg%3E" alt="Yanto Goutama" class="avatar">
-    </div>
+  <<div class="profile-card">
+
+  <style>
+    .profile-card{
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      max-width: 420px;
+      margin: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    .avatar-container{
+      position: relative;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .avatar-container::before{
+      content:"";
+      position:absolute;
+      inset:-25px;
+      border-radius:50%;
+      background: radial-gradient(circle,
+          rgba(212,175,55,0.35),
+          rgba(59,130,246,0.25),
+          transparent 70%);
+      filter: blur(25px);
+      z-index:0;
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+
+    .avatar-logo{
+      position:relative;
+      width:220px;
+      height:auto;
+      z-index:1;
+      transition: all 0.4s ease;
+      animation: floatLogo 6s ease-in-out infinite;
+    }
+
+    .avatar-logo:hover{
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 20px rgba(212,175,55,0.6));
+    }
+
+    @keyframes floatLogo{
+      0%{ transform: translateY(0px); }
+      50%{ transform: translateY(-10px); }
+      100%{ transform: translateY(0px); }
+    }
+
+    @keyframes pulseGlow{
+      0%{ opacity:0.6; }
+      50%{ opacity:1; }
+      100%{ opacity:0.6; }
+    }
+  </style>
+
+
+  <div class="avatar-container">
+    <img src="logo%20yg.jpeg" alt="Yanto Goutama Logo" class="avatar-logo">
+  </div>
+
+  <div class="profile-info">
+    <h3>Yanto Goutama</h3>
+    <div class="profile-title">Founder & Principal Consultant</div>
+  </div>
+
+</div>
     <div class="profile-info">
       <h3>Yanto Goutama</h3>
       <div class="profile-title">Founder & Principal Consultant</div>
